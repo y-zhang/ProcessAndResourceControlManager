@@ -1,9 +1,9 @@
 ProcessAndResourceControlManager
 ================================
 <ol>
-  <li>Introduction </li>
+  <li>Introduction<br> 
   For this project, I am going to design and implement a simplified process and resource manager that is able to handle operations such as create/destroy process, request/release resource, and time-out interrupt.  However, the problem is that I do not have the actual processes or the hardware and instead, my solution to this would be to use test files to simulate currently running processes and the hardware that causes interrupts.  I will develop a test shell to test the manager which reads command from test files, invokes kernel function, and displays the reply in an output file stating which process is running or if there is any errors.
-  
+  </li>
   <br><li>Data Structures
     <ul>
       <li>Process Control Block<br>
