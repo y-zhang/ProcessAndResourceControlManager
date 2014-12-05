@@ -9,12 +9,12 @@ For this project, I am going to design and implement a simplified process and re
 
 Process Control Block
 
-+-------------------------+
-|      Process ID         | 
-|     Type: String        |
-+-------------------------+
-|     Resource List       | -> |R1| -> |R2| -> |R3| -> |R4| 
-| Type: LinkedList of RCB |
+| +-------------------------+
+| |      Process ID         | 
+| |     Type: String        |
+\+-------------------------+
+\|     Resource List       | -> |R1| -> |R2| -> |R3| -> |R4| 
+\| Type: LinkedList of RCB |
 +-------------------------+
 |         Status          |
 | Type: int (0 for ready, |
