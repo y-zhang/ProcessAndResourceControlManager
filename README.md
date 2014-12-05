@@ -9,64 +9,14 @@ For this project, I am going to design and implement a simplified process and re
 
 Process Control Block
 
-| +-------------------------+
-| |      Process ID         | 
-| |     Type: String        |
-\+-------------------------+
-\|     Resource List       | -> |R1| -> |R2| -> |R3| -> |R4| 
-\| Type: LinkedList of RCB |
-+-------------------------+
-|         Status          |
-| Type: int (0 for ready, |
-| 1 for running, 2 for    |
-| blocked)                |
-+-------------------------+
-|        Parent           |
-|Type: pointer to another |
-|PCB who is its parent    |
-+-------------------------+
-|       Children          | -> |child#1| -> |child#2| ->… -> |child#N|
-|Type: LinkedList of its  | or
-|child(PCB)               | -> NULL (if no children) 
-+-------------------------+
-|        Priority         |
-|       Type: int         |
-+-------------------------+
-
 The Process Control Block is a structure having a process ID, a pointer to a resource list, process status, parent, child, and priority.  Firstly, the PCB contains a process ID, which is unique to that process only.  Secondly, there is a pointer to a resource list which is a linkedList of resources that are allocated to the process.  The maximum size of the resource list can only be 4 since it is given in the instruction by professor Bic that there will only be 4 resources labeled.  Thirdly, there will be a process status which has a type and a list, and there are three types either running, ready, or block.  If the types are running or ready, then that PCB points to the ready list; else, if the type is block, then PCB removes its pointer from the ready list and points itself to the RCB of the resource that it is blocked from.  Fourth, a pointer to its parent, which is also a PCB and each PCB can only have one parent.  Fifth, a pointer to a linkedList of its children or NULL if the PCB doesn’t have children.  Lastly, there is the priority in the PCB which indicates if it is either 1 or 2, except for the Init PCB which is the only PCB that has priority 0.
 
 Resource Control Block
-+--------------------+
-|   Resource ID      | 
-|   Type: String     |
-+--------------------+
-|      Status        |
-| Type: Boolean      |
-| (True for ‘free’   |
-| and false for      |
-| ‘allocated’)       |
-+--------------------+
-|    Waiting List    | -> |Blocked#1| -> |Blocked#2| ->…-> |Blocked#N|
-| Type: LinkedList   | or 
-| of blocked         | -> NULL (if no process waiting for the resource)
-| processes(PCB)     | 
-+--------------------+
+
 The Resource Control Block is a structure having a Resource ID, resource Status, and a pointer to a waiting list.  Firstly, the RCB contains a resource ID, which is unique to that resource only and there are only 4 possible resources ID since we only 4 resources.  Secondly, resource status indicates if the resource is currently 'free' or 'allocated' to a PCB represented using the Boolean function with True for 'free' and False for 'allocated'.  Lastly, there is a pointer to the waiting list which is a linkedList of processes that are blocked because the resource is currently allocated to another PCB or NULL if there is no PCB waiting for the resource.  Once the resource becomes available again, the resource is allocated to the next PCB in the linkedList or changes its status to 'free' if there is no other PCB waiting for the resource.
 
 Ready List
-+---------------+
-| Priority 2    | -> |PCB Priority 2 #1| -> … -> |PCB Priority 2 #N|  
-| (linkedList   | or
-| of PCB with   | -> NULL (if there is no PCB with priority 2)
-| priority 2)   |
-+---------------+
-| Priority 1    | -> |PCB Priority 1 #1| -> … -> |PCB Priority 1 #N| 
-| (linkedList   | or 
-| of PCB with   | -> NULL (if there is no PCB with priority 1)
-| priority 1)   |
-+---------------+
-| Priority 0    | -> |Init PCB|
-+---------------+
+
 The Ready List is a structure of an array with 3 indexes, with index 0 representing priority 0, index 1 representing priority 1, and index 2 representing priority 2.  Priority 0 index has a pointer to PCB Init and is the only PCB in priority 0.  The Init PCB is not allowed to request resource and can never be blocked since it acts as a “dummy” process when there is no other resource ready to run.  For priority 1, it has a pointer to a linkedList of processes with priority 1 or NULL if there is no process with priority 1.  For priority 2, it has a pointer to a linkedList of processes with priority 2 or NULL if there is no process with priority 2.    
 
 3.	System Architecture
