@@ -1,25 +1,22 @@
 ProcessAndResourceControlManager
 ================================
 
-1.	Introduction 
+1.  Introduction 
 
 For this project, I am going to design and implement a simplified process and resource manager that is able to handle operations such as create/destroy process, request/release resource, and time-out interrupt.  However, the problem is that I do not have the actual processes or the hardware and instead, my solution to this would be to use test files to simulate currently running processes and the hardware that causes interrupts.  I will develop a test shell to test the manager which reads command from test files, invokes kernel function, and displays the reply in an output file stating which process is running or if there is any errors.
 
-2.	Data Structures 
+2.  Data Structures 
 
 Process Control Block
-
 The Process Control Block is a structure having a process ID, a pointer to a resource list, process status, parent, child, and priority.  Firstly, the PCB contains a process ID, which is unique to that process only.  Secondly, there is a pointer to a resource list which is a linkedList of resources that are allocated to the process.  The maximum size of the resource list can only be 4 since it is given in the instruction by professor Bic that there will only be 4 resources labeled.  Thirdly, there will be a process status which has a type and a list, and there are three types either running, ready, or block.  If the types are running or ready, then that PCB points to the ready list; else, if the type is block, then PCB removes its pointer from the ready list and points itself to the RCB of the resource that it is blocked from.  Fourth, a pointer to its parent, which is also a PCB and each PCB can only have one parent.  Fifth, a pointer to a linkedList of its children or NULL if the PCB doesn’t have children.  Lastly, there is the priority in the PCB which indicates if it is either 1 or 2, except for the Init PCB which is the only PCB that has priority 0.
 
 Resource Control Block
-
 The Resource Control Block is a structure having a Resource ID, resource Status, and a pointer to a waiting list.  Firstly, the RCB contains a resource ID, which is unique to that resource only and there are only 4 possible resources ID since we only 4 resources.  Secondly, resource status indicates if the resource is currently 'free' or 'allocated' to a PCB represented using the Boolean function with True for 'free' and False for 'allocated'.  Lastly, there is a pointer to the waiting list which is a linkedList of processes that are blocked because the resource is currently allocated to another PCB or NULL if there is no PCB waiting for the resource.  Once the resource becomes available again, the resource is allocated to the next PCB in the linkedList or changes its status to 'free' if there is no other PCB waiting for the resource.
 
 Ready List
-
 The Ready List is a structure of an array with 3 indexes, with index 0 representing priority 0, index 1 representing priority 1, and index 2 representing priority 2.  Priority 0 index has a pointer to PCB Init and is the only PCB in priority 0.  The Init PCB is not allowed to request resource and can never be blocked since it acts as a “dummy” process when there is no other resource ready to run.  For priority 1, it has a pointer to a linkedList of processes with priority 1 or NULL if there is no process with priority 1.  For priority 2, it has a pointer to a linkedList of processes with priority 2 or NULL if there is no process with priority 2.    
 
-3.	System Architecture
+3.  System Architecture
 
 The main functions are create process, destroy process, request resource, release resource, Scheduler, and Time-out Interrupts.  
 
